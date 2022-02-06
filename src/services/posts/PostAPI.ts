@@ -20,7 +20,6 @@ export class PostsAPI {
     page: number,
     cancelToken?: CancelToken,
   ): Promise<ServerResponse> => {
-    console.log('get post');
     return await api.get(`/posts?_page=${page}&_limit=10`, {cancelToken});
   };
 }

@@ -6,13 +6,12 @@ import {appendPost, resetPosts} from '~/redux/reducers/postsReducer';
 import IPost from '~/services/models/IPost';
 import {PostsAPI} from '~/services/posts/PostAPI';
 import {CancelTokenSource} from 'axios';
-import {PostRow} from './components/PostRow';
+import PostRow from './components/PostRow';
 import {Loading} from '~/components/Loading';
-import {SeperatorComponent} from '~/components/SeperatorComponent';
 import {FeedArea} from './components/FeedArea';
-import {useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '~/App';
+import IAuthor from '~/services/models/IAuthor';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Feed'>;
 
@@ -33,6 +32,7 @@ function FeedContainer({navigation}: Props): JSX.Element {
       try {
         //fetch posts
         setIsRefreshing(true);
+        console.log('load page first', 1);
 
         const postAPI = PostsAPI.getInstance();
         cancelHandle = postAPI.getSource();
@@ -89,15 +89,23 @@ function FeedContainer({navigation}: Props): JSX.Element {
     navigation.push('Post', {postData: post});
   };
 
+  const onPressAuthor = (author: IAuthor) => {
+    navigation.push('Author', {authorData: author});
+  };
+
   return (
     <FeedArea>
       {isRefreshing && posts.length === 0 ? <Loading /> : null}
       <FlatList
         data={posts}
-        renderItem={({item}) => <PostRow onPress={onItemPressed} item={item} />}
+        renderItem={({item}) => (
+          <PostRow
+            onPress={onItemPressed}
+            onPressAuthor={onPressAuthor}
+            item={item}
+          />
+        )}
         keyExtractor={item => item.id.toString()}
-        ItemSeparatorComponent={SeperatorComponent}
-        initialNumToRender={5}
         onRefresh={onRefresh}
         refreshing={isRefreshing}
         ListFooterComponent={renderFooter}

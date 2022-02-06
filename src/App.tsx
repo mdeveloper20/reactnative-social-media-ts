@@ -8,7 +8,6 @@
  * @format
  */
 import React from 'react';
-import {SafeAreaView, StatusBar} from 'react-native';
 import {Provider} from 'react-redux';
 import FeedContainer from '~/containers/Feed/FeedContainer';
 import store from '~/redux/store';
@@ -16,12 +15,13 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import PostContainer from './containers/Post/PostContainer';
 import IPost from './services/models/IPost';
-import {Screen} from 'react-native-screens';
-import {Screens} from './config/vars';
+import IAuthor from './services/models/IAuthor';
+import AuthorContainer from './containers/Author/AuthorContainer';
 
 export type RootStackParamList = {
   Post: {postData: IPost};
   Feed: undefined;
+  Author: {authorData: IAuthor};
 };
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -31,8 +31,8 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator initialRouteName={'Feed'}>
           <Stack.Screen name="Feed" component={FeedContainer} />
-
           <Stack.Screen name="Post" component={PostContainer} />
+          <Stack.Screen name="Author" component={AuthorContainer} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
