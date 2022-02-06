@@ -11,10 +11,12 @@
 Note: As the server side project is hosted on Heroku(free version), if no web traffic in a 30-minute period, it will sleep it, so you first need to run a query on the below URL to run it again: 
 https://rnserver.herokuapp.com
 
-Github Repo for Back-End project:
+# Backend Part:
+
+Github Repo for the backend project:
 https://github.com/mdeveloper20/json-server-heroku
 
-# Points to improve:
+# How to improve it:
 
 1- In the FeedContainer component for pagination the `Page` param is used to get the next page from server. While the app is running if a record added to the database in meantime, then the user fetch the next page, it will return one repetitive record along with data and cause this warning:
 `Encountered two children with the same key `
