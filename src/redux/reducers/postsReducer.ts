@@ -5,12 +5,14 @@ import IPost from '~/services/models/IPost';
 interface PostsState {
   entries: IPost[];
   page: number;
+  isFetching: boolean;
 }
 
 // Define the initial state using that type
 const initialState: PostsState = {
   entries: [],
   page: 1,
+  isFetching: false,
 };
 
 export const postsSlice = createSlice({
@@ -20,14 +22,19 @@ export const postsSlice = createSlice({
     appendPost: (state, action: PayloadAction<IPost[]>) => {
       state.entries.push(...action.payload);
       state.page++;
+      state.isFetching = false;
     },
     resetPosts: (state, action: PayloadAction<IPost[]>) => {
       state.entries = [...action.payload];
+      state.isFetching = false;
       state.page = 2;
+    },
+    setFetching: (state, action: PayloadAction<boolean>) => {
+      state.isFetching = action.payload;
     },
   },
 });
 
-export const {appendPost, resetPosts} = postsSlice.actions;
+export const {appendPost, resetPosts, setFetching} = postsSlice.actions;
 
 export default postsSlice.reducer;
